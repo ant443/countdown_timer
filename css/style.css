@@ -1,0 +1,30 @@
+#timerText {
+  position: absolute;
+  width: 100%;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  font-size: 60px;
+  text-align: center;
+}
+
+#timerButton {
+  width: 121px;
+  height: 36px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+@media screen and (max-width: 439px) {
+  #timerText {
+    font-size: 40px;
+  }
+
+  #timerButton {
+    top: 35%;
+    width: 110px;
+    height: 28px;
+  }
+}
