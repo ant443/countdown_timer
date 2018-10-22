@@ -1,7 +1,7 @@
 # Project: countdown_timer
 
 ## Description
-A basic countdown timer for a website. Ends with four, easy on the ears, alarm beeps and number's colour alternates(slowly) between red and black.
+A basic countdown timer for a website. Ends with four, easy on the ears, alarm beeps while the colour of the digits alternates(slowly) between red and black.
 
 ## Motivation
 Youtube is unreliable for timers.
