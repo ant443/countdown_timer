@@ -6,8 +6,8 @@ A basic countdown timer for a website
 ## Motivation
 Youtube is unreliable
 
-## Installing: 
+## Installing
 Clone/download repository to harddrive.
 
-## Usage:
+## Usage
 Open index.html in the web browser of your choosing.
