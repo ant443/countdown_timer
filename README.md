@@ -4,7 +4,7 @@
 A basic countdown timer for a website
 
 ## Motivation
-Youtube is unreliable
+Youtube is unreliable for timers.
 
 ## Installing
 Clone/download repository to harddrive.
