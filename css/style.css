@@ -1,30 +1,98 @@
-#timerText {
-  position: absolute;
-  width: 100%;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%);
-  font-size: 60px;
+.timer {
+  width: 31rem;
+  margin: 25vh auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-#timerButton {
-  width: 121px;
-  height: 36px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%);
+.timer__text {
+  margin: 10px 0;
+  font-size: 3.75rem;
 }
 
-@media screen and (max-width: 439px) {
-  #timerText {
-    font-size: 40px;
+.timer__info {
+  display: block;
+  margin-bottom: 5px;
+  height: 2.4rem;
+  font-size: 1.2rem;
+}
+
+.timer__form {
+  align-self: center;
+}
+
+.timer__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 2fr 3fr 2fr;
+  grid-column-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.timer__days {
+  grid-row-start: 2;
+}
+
+.timer__hours {
+  grid-row-start: 2;
+  justify-self: center;
+ }
+
+ .timer__label-mins {
+  align-self: center;
+ }
+
+.timer__mins {
+  grid-row-start: 4;
+  grid-column-start: 1;
+  justify-self: center;
+}
+
+.timer__label-seconds {
+  align-self: center;
+ }
+
+.timer__seconds {
+  grid-row-start: 4;
+  grid-column-start: 2;
+}
+
+.timer__button {
+  width: 7.5rem;
+  height: 2.2rem;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.timer__textarea {
+  margin: 10px auto;
+}
+
+@media screen and (max-width: 500px) {
+  .timer {
+    width: 100%;
   }
 
-  #timerButton {
-    top: 35%;
+  .timer__text {
+    font-size: 2.5rem;
+  }
+
+  .timer__info {
+    font-size: 1em;
+  }
+  
+  .timer__days, .timer__hours, .timer__mins, .timer__seconds {
     width: 110px;
+  }
+
+  .timer__button {
+    width: 6.9rem;
     height: 28px;
   }
+
+  .timer__textarea {
+    width: 15.6rem;
+  }
+
 }

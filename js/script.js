@@ -1,27 +1,31 @@
-(function countdownTimer(){
+(function () {
   "use strict";
 
-  const timerButton = document.getElementById("timerButton");
+  const timerButton = document.getElementById("timer-button");
 
-  timerButton.onclick = function countDownTimer() {
+  timerButton.onclick = function countDownTimer(e) {
 
-    function getPositiveNumFromUser(text) {
-      let usersNum = Number(prompt(text));
-      return usersNum > 0 ? usersNum : 0;
+    function getPositiveIntFromUser(element) {
+      const usersNum = element.valueAsNumber;
+      return usersNum > 0 ? parseInt(usersNum) : 0;
     }
 
-    function calcCountdownEndDate(hours, mins) {
-      let today = new Date();
-      today.setHours(today.getHours()+hours);
-      today.setMinutes(today.getMinutes()+mins);
+    function getDuration(nodeList) {
+      const days = getPositiveIntFromUser(nodeList[0]);
+      const hours = getPositiveIntFromUser(nodeList[1]);
+      const minutes = getPositiveIntFromUser(nodeList[2]);
+      const seconds = getPositiveIntFromUser(nodeList[3]);
+      return {
+        "days": days, "hours": hours, "minutes": minutes, "seconds": seconds
+      }
+    }
+
+    function calcEndDate(totalTime) {
+      const today = new Date();
+      today.setHours(today.getHours() + totalTime.hours + (totalTime.days * 24));
+      today.setMinutes(today.getMinutes() + totalTime.minutes);
+      today.setSeconds(today.getSeconds() + totalTime.seconds);
       return today
-    }
-
-    function getDurationAndCalcEndDate() {
-      const hours = getPositiveNumFromUser("enter hours");
-      const mins = getPositiveNumFromUser("enter minutes");
-      if (hours + mins === 0) {return 0};
-      return calcCountdownEndDate(hours, mins)
     }
 
     function reset() {
@@ -29,71 +33,92 @@
       timerText.textContent = "Countdown Timer";
       timerButton.onclick = countDownTimer;
       timerButton.textContent = "Activate timer";
-      endAudio.pause(); 
+      resetAudioClip(alarmAudio);
       clearInterval(timer);
+      clearInterval(timerNegative);
+      durationText.textContent += " stopped";
+      if (typeof (millisecondsLeft) !== "undefined") {
+        durationText.textContent += ` with 
+          ${updateDisplayedTime(largerUnitsFrom(millisecondsLeft))}
+          left.`;
+      }
     }
 
-    let endDateTime = getDurationAndCalcEndDate()
-    if (!endDateTime) {return}
-    const timerText = document.getElementById("timerText");
-    const endAudio = document.querySelector("audio");
-    let alarmSeconds = 5;
+    function largerUnitsFrom(miliseconds) {
+      const floorOrCeil = miliseconds > 0 ? "floor" : "ceil";
+      const days = Math[floorOrCeil]((miliseconds / 1000 / 60 / 60 / 24));
+      const hours = Math[floorOrCeil]((miliseconds / 1000 / 60 / 60) % 24);
+      const minutes = Math[floorOrCeil]((miliseconds / 1000 / 60) % 60);
+      const seconds = Math[floorOrCeil]((miliseconds / 1000) % 60);
+      return { "days": days, "hours": hours, "minutes": minutes, "seconds": seconds }
+    }
 
-    timerButton.onclick = function() {
+    function alternateTextColor(element) {
+      element.style.color = element.style.color !== "red" ? "red" : "black";
+    }
+
+    function playAudioClip(audioElement) {
+      audioElement.currentTime = 0;
+      audioElement.play();
+    }
+
+    function resetAudioClip(audioElement) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+    }
+
+    function runAlarmSequence(textElement, audioElement, Duration) {
+      alternateTextColor(textElement);
+      playAudioClip(audioElement);
+      Duration -= 1;
+      if (Duration <= 0) {
+        resetAudioClip(audioElement);
+        clearInterval(timer);
+        textElement.style.color = "red";
+      }
+      return Duration
+    }
+
+    function updateDisplayedTime(timeInUnits) {
+      let display = "";
+      if (timeInUnits.days) { display += timeInUnits.days + "d " }
+      if (timeInUnits.hours) { display += timeInUnits.hours + "h " }
+      if (timeInUnits.minutes) { display += timeInUnits.minutes + "m " }
+      if (timeInUnits.seconds) { display += timeInUnits.seconds + "s"; }
+      return display ? display : "0s";
+    }
+
+    const timerRoot = document.getElementById("timer");
+    const timerText = timerRoot.querySelector(".timer__text");
+    const durationText = timerRoot.querySelector(".timer__info");
+    const timeInputs = timerRoot.querySelectorAll("input");
+    const alarmAudio = timerRoot.querySelector("audio");
+    const timerButton = e.target;
+
+    const duration = getDuration(timeInputs);
+    const endDateTime = calcEndDate(duration)
+    const alarmSeconds = 6;
+    let alarmCounter = alarmSeconds;
+    let millisecondsLeft;
+
+    timerButton.onclick = function () {
       reset();
     }
 
+    durationText.textContent = ` ${updateDisplayedTime(duration)} timer`;
     timerButton.textContent = "Stop timer";
 
-    const timer = setInterval(function() {
-
-      function convertToLargerUnits(miliseconds) {
-        const days = Math.floor((miliseconds / 1000 / 60 / 60 / 24));
-        const hours = Math.floor((miliseconds / 1000 / 60 / 60) % 24);
-        const minutes = Math.floor((miliseconds / 1000 / 60) % 60);
-        const seconds = Math.floor((miliseconds / 1000) % 60);
-        return [days, hours, minutes, seconds]
+    const timer = setInterval(function () {
+      millisecondsLeft = endDateTime - new Date();
+      timerText.textContent = updateDisplayedTime(largerUnitsFrom(millisecondsLeft));
+      if (millisecondsLeft <= 1000) {
+        alarmCounter = runAlarmSequence(timerText, alarmAudio, alarmCounter);
       }
+    }, 1000);
 
-      function alternateElementColor(element) {
-        element.style.color = element.style.color !== "red" ? "red" : "black";
-      }
-
-      function resetAndPlayAudioClip(audioElement) {
-        audioElement.currentTime = 0;
-        audioElement.play();
-      }
-
-      function runAlarmSequenceThenReset(textElement, audioElement, Duration) {
-        alternateElementColor(textElement);
-        resetAndPlayAudioClip(audioElement);
-        Duration -= 1;
-        if (Duration <= 0) {
-          reset()
-        }
-        return Duration
-      }
-
-      function updateDisplayedTime(daysHoursMinsSecsArray) {
-        let days, hours, minutes, seconds
-        [days, hours, minutes, seconds] = daysHoursMinsSecsArray
-        return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-      }
-
-      let timeLeft = endDateTime - new Date();
-      if (timeLeft < 0) {
-        alarmSeconds = runAlarmSequenceThenReset(timerText, endAudio, 
-                                                 alarmSeconds);
-      } else {
-        timerText.textContent = updateDisplayedTime(
-                               convertToLargerUnits(timeLeft));
-      }
-
+    const timerNegative = setInterval(function () {
+      millisecondsLeft = endDateTime - new Date();
+      timerText.textContent = updateDisplayedTime(largerUnitsFrom(millisecondsLeft));
     }, 1000);
   }
-
 })();
-
-// TODO:
-// pause function
-// better user input functionality(e.g. two text input forms)

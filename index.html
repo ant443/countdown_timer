@@ -1,17 +1,38 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>countdown timer</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-    <p id="timerText">Countdown Timer</p>
-    <button id="timerButton">Activate timer</button>
-    <!-- audio by ZyryTSounds @ https://freesound.org/people/ZyryTSounds/sounds/219244/ -->
-    <audio src="audio/219244__zyrytsounds__alarm-clock-short.wav"></audio>
+<!DOCTYPE html>
+<html lang="en">
 
-    <script rel="text/javascript" src="js/script.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>countdown timer</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script rel="text/javascript" src="js/script.js" defer></script>
+</head>
+
+<body>
+  <div id="timer" class="timer">
+    <p class="timer__text">Countdown Timer</p>
+    <p class="timer__info"></p>
+    <form class="timer__form" action="">
+      <div class="timer__grid">
+        <label for="days">Days</label>
+        <input type="number" id="days" class="timer__days">
+        <label for="hours">Hours</label>
+        <input type="number" id="hours" class="timer__hours">
+        <label class="timer__label-mins" for="minutes">Minutes</label>
+        <input type="number" id="minutes" class="timer__mins">
+        <label class="timer__label-seconds" for="seconds">Seconds</label>
+        <input type="number" id="seconds" class="timer__seconds">
+      </div>
+      <button type="button" id="timer-button" class="timer__button">Activate timer</button>
+    </form>
+    <textarea class="timer__textarea" rows="5" cols="40"></textarea>
+    <audio src="audio/alarm.wav"></audio>
+  </div>
+
+</body>
+
 </html>
+<!-- audio by ZyryTSounds @ https://freesound.org/people/ZyryTSounds/sounds/219244/ -->
