@@ -1,21 +1,23 @@
 .timer {
-  width: 31rem;
+  width: 28rem;
   margin: 25vh auto;
   text-align: center;
   display: flex;
   flex-direction: column;
+  border-radius: 2px;
 }
 
 .timer__text {
-  margin: 10px 0;
+  margin: .625rem 0;
   font-size: 3.75rem;
 }
 
 .timer__info {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: .3125rem;
   height: 2.4rem;
   font-size: 1.2rem;
+  white-space: pre-line;
 }
 
 .timer__form {
@@ -27,7 +29,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 2fr 2fr 3fr 2fr;
   grid-column-gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: .625rem;
 }
 
 .timer__days {
@@ -62,11 +64,11 @@
   width: 7.5rem;
   height: 2.2rem;
   cursor: pointer;
-  margin: 10px 0;
+  margin: .625rem 0;
 }
 
 .timer__textarea {
-  margin: 10px auto;
+  margin: .625rem auto;
 }
 
 @media screen and (max-width: 500px) {
@@ -81,7 +83,7 @@
   .timer__info {
     font-size: 1em;
   }
-  
+
   .timer__days, .timer__hours, .timer__mins, .timer__seconds {
     width: 110px;
   }

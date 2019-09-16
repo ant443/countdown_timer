@@ -28,7 +28,7 @@
       return today
     }
 
-    function reset() {
+    function resetTimer() {
       timerText.style.color = "black";
       timerText.textContent = "Countdown Timer";
       timerButton.onclick = countDownTimer;
@@ -38,22 +38,32 @@
       clearInterval(timerNegative);
       durationText.textContent += " stopped";
       if (typeof (millisecondsLeft) !== "undefined") {
-        durationText.textContent += ` with 
-          ${updateDisplayedTime(largerUnitsFrom(millisecondsLeft))}
-          left.`;
+        const readableTimeLeft = toReadableTime(toUnits(millisecondsLeft));
+        const runTime = toMilliseconds(duration) - millisecondsLeft;
+        const readableRunTime = toReadableTime(toUnits(runTime));
+        durationText.textContent += ` with ${readableTimeLeft} left. ` +
+          `\nTimer ran for ${readableRunTime} total`;
       }
     }
 
-    function largerUnitsFrom(miliseconds) {
-      const floorOrCeil = miliseconds > 0 ? "floor" : "ceil";
-      const days = Math[floorOrCeil]((miliseconds / 1000 / 60 / 60 / 24));
-      const hours = Math[floorOrCeil]((miliseconds / 1000 / 60 / 60) % 24);
-      const minutes = Math[floorOrCeil]((miliseconds / 1000 / 60) % 60);
-      const seconds = Math[floorOrCeil]((miliseconds / 1000) % 60);
+    function toUnits(milliseconds) {
+      const floorOrCeil = milliseconds > 0 ? "floor" : "ceil";
+      const days = Math[floorOrCeil]((milliseconds / 1000 / 60 / 60 / 24));
+      const hours = Math[floorOrCeil]((milliseconds / 1000 / 60 / 60) % 24);
+      const minutes = Math[floorOrCeil]((milliseconds / 1000 / 60) % 60);
+      const seconds = Math[floorOrCeil]((milliseconds / 1000) % 60);
       return { "days": days, "hours": hours, "minutes": minutes, "seconds": seconds }
     }
 
-    function alternateTextColor(element) {
+    function toMilliseconds(units) {
+      const days = units.days * 24 * 60 * 60 * 1000;
+      const hours = units.hours * 60 * 60 * 1000;
+      const minutes = units.minutes * 60 * 1000;
+      const seconds = units.seconds * 1000;
+      return days + hours + minutes + seconds;
+    }
+
+    function toggleColor(element) {
       element.style.color = element.style.color !== "red" ? "red" : "black";
     }
 
@@ -68,7 +78,7 @@
     }
 
     function runAlarmSequence(textElement, audioElement, Duration) {
-      alternateTextColor(textElement);
+      toggleColor(textElement);
       playAudioClip(audioElement);
       Duration -= 1;
       if (Duration <= 0) {
@@ -79,7 +89,7 @@
       return Duration
     }
 
-    function updateDisplayedTime(timeInUnits) {
+    function toReadableTime(timeInUnits) {
       let display = "";
       if (timeInUnits.days) { display += timeInUnits.days + "d " }
       if (timeInUnits.hours) { display += timeInUnits.hours + "h " }
@@ -94,31 +104,31 @@
     const timeInputs = timerRoot.querySelectorAll("input");
     const alarmAudio = timerRoot.querySelector("audio");
     const timerButton = e.target;
-
-    const duration = getDuration(timeInputs);
-    const endDateTime = calcEndDate(duration)
     const alarmSeconds = 6;
     let alarmCounter = alarmSeconds;
     let millisecondsLeft;
 
+    const duration = getDuration(timeInputs);
+    const endDateTime = calcEndDate(duration)
+
     timerButton.onclick = function () {
-      reset();
+      resetTimer();
     }
 
-    durationText.textContent = ` ${updateDisplayedTime(duration)} timer`;
+    durationText.textContent = ` ${toReadableTime(duration)} timer`;
     timerButton.textContent = "Stop timer";
 
     const timer = setInterval(function () {
       millisecondsLeft = endDateTime - new Date();
-      timerText.textContent = updateDisplayedTime(largerUnitsFrom(millisecondsLeft));
-      if (millisecondsLeft <= 1000) {
+      timerText.textContent = toReadableTime(toUnits(millisecondsLeft));
+      if (millisecondsLeft <= 500) {
         alarmCounter = runAlarmSequence(timerText, alarmAudio, alarmCounter);
       }
     }, 1000);
 
     const timerNegative = setInterval(function () {
       millisecondsLeft = endDateTime - new Date();
-      timerText.textContent = updateDisplayedTime(largerUnitsFrom(millisecondsLeft));
+      timerText.textContent = toReadableTime(toUnits(millisecondsLeft));
     }, 1000);
   }
 })();
