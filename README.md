@@ -1,7 +1,11 @@
 # Project: countdown_timer
 
 ## Description
-A basic countdown timer for a website. Ends with four, easy on the ears, alarm beeps while the colour of the digits alternates(slowly) between red and black.
+A basic countdown timer for a website. 
+Ends with four, easy on the ears, alarm beeps while the colour of the digits alternates slowly between red and black. 
+Will count in negative numbers in red text after reaching 0.
+After starting, displays total time chosen. Once stopped, displays time left out of total time.
+Textarea provided should you wish to note a task to complete after timer finishes.
 
 ## Motivation
 Youtube is unreliable for timers.
@@ -13,8 +17,4 @@ Clone/download repository to harddrive.
 Open index.html in the web browser of your choosing.
 
 ## Screenshots
-![image](https://user-images.githubusercontent.com/31293098/47317137-b653db00-d640-11e8-969c-dd8d64b3c762.png)
-![image](https://user-images.githubusercontent.com/31293098/47317143-bc49bc00-d640-11e8-9b3f-2d7a08456abd.png)
-![image](https://user-images.githubusercontent.com/31293098/47317153-c10e7000-d640-11e8-8d8b-2b89effcf3f9.png)
-![image](https://user-images.githubusercontent.com/31293098/47317163-c5d32400-d640-11e8-9711-2e26acb10fe1.png)
-![image](https://user-images.githubusercontent.com/31293098/47317169-cb306e80-d640-11e8-96c2-e27bd283dfac.png)
+![cdtimer_new](https://user-images.githubusercontent.com/31293098/64372071-fa15c000-d019-11e9-98d3-8fe2c6ec2069.png)
