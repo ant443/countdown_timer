@@ -14,7 +14,7 @@
 
 .timer__info {
   display: block;
-  margin-bottom: .3125rem;
+  margin-bottom: .625rem;
   height: 2.4rem;
   font-size: 1.2rem;
   white-space: pre-line;
@@ -27,8 +27,9 @@
 .timer__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 2fr 3fr 2fr;
+  grid-template-rows: 20fr 40fr 8fr 20fr 40fr;
   grid-column-gap: 10px;
+  grid-row-gap: 3px;
   margin-bottom: .625rem;
 }
 
@@ -42,26 +43,27 @@
  }
 
  .timer__label-mins {
+  grid-row-start: 4;
   align-self: center;
  }
 
 .timer__mins {
-  grid-row-start: 4;
+  grid-row-start: 5;
   grid-column-start: 1;
   justify-self: center;
 }
 
 .timer__label-seconds {
+  grid-row-start: 4;
   align-self: center;
  }
 
 .timer__seconds {
-  grid-row-start: 4;
+  grid-row-start: 5;
   grid-column-start: 2;
 }
 
 .timer__button {
-  width: 7.5rem;
   height: 2.2rem;
   cursor: pointer;
   margin: .625rem 0;
@@ -89,7 +91,6 @@
   }
 
   .timer__button {
-    width: 6.9rem;
     height: 28px;
   }
 
