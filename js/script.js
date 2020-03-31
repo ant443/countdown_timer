@@ -1,4 +1,4 @@
-(function () {
+(function setUpCountDownTimer() {
   "use strict";
 
   const timerButton = document.getElementById("timer-button");
@@ -130,5 +130,19 @@
       millisecondsLeft = endDateTime - new Date();
       timerText.textContent = toReadableTime(toUnits(millisecondsLeft));
     }, 1000);
+  }
+
+})();
+
+(function setUpEnterKeyActivation() {
+  const timerForm = document.getElementById("timer-form");
+  if (!timerForm) {return}
+  timerForm.addEventListener("keyup", activateOnEnter, false);
+
+  function activateOnEnter(e) {
+    if (e.target.type === "button") {return}
+    if (e.keyCode === 13) {
+      document.getElementById("timer-button").click();
+    }
   }
 })();
